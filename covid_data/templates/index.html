@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My API Front-end</title>
+</head>
+<body>
+    <h1>My API Front-end</h1>
+    <form method="post" action="/myapp/search">
+        {% csrf_token %}
+        <label for="state">State:</label>
+        <input type="text" id="state" name="state"><br><br>
+        <label for="start_date">Start Date:</label>
+        <input type="text" id="start_date" name="start_date"><br><br>
+        <label for="end_date">End Date:</label>
+        <input type="text" id="end_date" name="end_date"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
