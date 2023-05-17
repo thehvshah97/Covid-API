@@ -33,6 +33,11 @@ def covid_data(request):
                 'negative_cases': sum(negative_cases)
             })
 
+    else:
+        return JsonResponse({
+            'message': 'Error: Invalid request Method'
+        })
+
 
 @csrf_exempt
 def covid_data_post(request):
@@ -46,17 +51,20 @@ def covid_data_post(request):
         url = f'https://api.covidtracking.com/v1/states/{state}/daily.json'
         response = requests.get(url)
         data = response.json()
-        start_positive, end_positive, start_negative, end_negative = 0, 0, 0, 0
+        positive_cases = []
+        negative_cases = []
+        for each_day in data:
+            if new_start_date >= int(each_day['date']) >= new_end_date:
+                positive_cases.append(each_day['positiveIncrease'])
+                negative_cases.append(each_day['negativeIncrease'])
 
-        for value in data:
-            if new_start_date == value['date']:
-                start_positive = value['positive']
-                start_negative = value['negative']
-            if new_end_date == value['date']:
-                end_positive = value['positive']
-                end_negative = value['negative']
-        return JsonResponse({'Positive': end_positive - start_positive,
-                             'negative': end_negative - start_negative})
+        if not positive_cases and not negative_cases:
+            return JsonResponse({'message': 'Data not available'})
+        else:
+            return JsonResponse({
+                'positive_cases': sum(positive_cases),
+                'negative_cases': sum(negative_cases)
+            })
     else:
         return JsonResponse({'message': 'Error: Invalid request method'})
 
