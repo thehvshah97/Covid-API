@@ -1,14 +1,8 @@
 import json
-
 from django.http import JsonResponse
 import requests
 from datetime import datetime, timedelta
-from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-
-
-def index(request):
-    return render(request, 'index.html')
 
 
 def covid_data(request):
@@ -26,13 +20,11 @@ def covid_data(request):
 
         if not positive_cases and not negative_cases:
             return JsonResponse({'message': 'Data not available'})
-
         else:
             return JsonResponse({
                 'positive_cases': sum(positive_cases),
                 'negative_cases': sum(negative_cases)
             })
-
     else:
         return JsonResponse({
             'message': 'Error: Invalid request Method'
