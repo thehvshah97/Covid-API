@@ -17,10 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from covid_data.views import covid_data, covid_data_post
+from covid_data.covid_data_views import covid_data
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('covid-data/', covid_data, name='covid_data'),
-    path('covid-data-post/', covid_data_post, name='covid_data_post'),
+    path('covid-data-post/', covid_data, name='covid_data'),
 ]
